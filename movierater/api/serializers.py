@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from .models import Movie, Rating
 
@@ -25,4 +26,5 @@ class UserSerializer(serializers.ModelSerializer):
     # Hashing the password before save overwriting the create method for ModelSerializer
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
+        Token.objects.create(user=user)
         return user
